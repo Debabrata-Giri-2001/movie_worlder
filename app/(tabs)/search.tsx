@@ -7,7 +7,7 @@ import { debounce } from '@/hooks/debounce';
 
 const Search = () => {
     const [keyword, setKeyword] = useState('');
-    const { data, loading, error } = useApi<any>(`search/keyword?query=${keyword}&page=1`);
+    const { data, loading, error } = useApi<any>(`search/keyword?query=${keyword}&page=1`,'GET');
 
     const debouncedSetKeyword = useCallback(
         debounce((text: string) => setKeyword(text), 300),

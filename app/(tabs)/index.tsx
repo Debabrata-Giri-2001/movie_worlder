@@ -7,11 +7,11 @@ import { SafeAreaView } from 'react-native-safe-area-context';
 const { height } = Dimensions.get('window');
 
 const Home = () => {
-    const { data: randomMovies, loading, error } = useApi<any>('movie/popular?language=en-US&page=1');
-    const { data: popularMovies, loading: popularLoad, error: popularErr } = useApi<any>('movie/popular?language=en-US&page=1');
-    const { data: nowPlaying, loading: nowPlayingLoad, error: nowPlayingErr } = useApi<any>('movie/now_playing?language=en-US&page=1');
-    const { data: upcoming, loading: upcomingLoad, error: upcomingErr } = useApi<any>('movie/upcoming?language=en-US&page=1');
-    const { data: topRated, loading: topRatedLoad, error: topRatedErr } = useApi<any>('movie/top_rated?language=en-US&page=1');
+    const { data: randomMovies, loading, error } = useApi<any>('movie/popular?language=en-US&page=1','GET');
+    const { data: popularMovies, loading: popularLoad, error: popularErr } = useApi<any>('movie/popular?language=en-US&page=1','GET');
+    const { data: nowPlaying, loading: nowPlayingLoad, error: nowPlayingErr } = useApi<any>('movie/now_playing?language=en-US&page=1','GET');
+    const { data: upcoming, loading: upcomingLoad, error: upcomingErr } = useApi<any>('movie/upcoming?language=en-US&page=1',"GET");
+    const { data: topRated, loading: topRatedLoad, error: topRatedErr } = useApi<any>('movie/top_rated?language=en-US&page=1',"GET");
 
     // Check if loading or error exists
     if (loading || nowPlayingLoad || upcomingLoad || topRatedLoad || popularLoad) return <Text>Loading...</Text>;

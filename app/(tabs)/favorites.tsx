@@ -1,15 +1,63 @@
-import React from 'react'
-import { Text, View } from 'react-native'
-import { SafeAreaView } from 'react-native-safe-area-context'
+import FavMovieCard from '@/components/FavMovieCard';
+import useApi from '@/hooks/useApi';
+import React from 'react';
+import { FlatList, Text, View, StyleSheet } from 'react-native';
+import { SafeAreaView } from 'react-native-safe-area-context';
 
 const Favorites = () => {
-    return (
-        <SafeAreaView style={{ flex: 1, backgroundColor: '#121212',}}>
-            <View >
-                <Text>Feb</Text>
-            </View>
-        </SafeAreaView>
-    )
-}
+    const { data: account, loading: accountLoad, error: accountErr } = useApi<any>('account', 'GET');
+    const { data: movie, loading, error } = useApi<any>(`account/${account?.id}/favorite/movies?language=en-US&page=1&sort_by=created_at.asc`, 'GET');
 
-export default Favorites
+    if (loading || accountLoad) {
+        return (
+            <SafeAreaView style={styles.container}>
+                <Text style={styles.loadingText}>Loading...</Text>
+            </SafeAreaView>
+        );
+    }
+
+    if (error || accountErr) {
+        return (
+            <SafeAreaView style={styles.container}>
+                <Text style={styles.errorText}>Error loading data</Text>
+            </SafeAreaView>
+        );
+    }
+
+    return (
+        <SafeAreaView style={styles.container}>
+            <Text style={{textAlign:'center',fontWeight:'bold',fontSize:22,color:'#FFF'}}>Favorites</Text>
+            <FlatList
+                data={movie?.results}
+                renderItem={({ item }) => <FavMovieCard data={item} />}
+                keyExtractor={(item: any) => item.id.toString()}
+                contentContainerStyle={styles.list}
+            />
+        </SafeAreaView>
+    );
+};
+
+const styles = StyleSheet.create({
+    container: {
+        flex: 1,
+        backgroundColor: '#121212',
+        padding: 10,
+    },
+    list: {
+        paddingBottom: 20,
+    },
+    loadingText: {
+        color: '#fff',
+        fontSize: 16,
+        textAlign: 'center',
+        marginTop: 20,
+    },
+    errorText: {
+        color: 'red',
+        fontSize: 16,
+        textAlign: 'center',
+        marginTop: 20,
+    },
+});
+
+export default Favorites;

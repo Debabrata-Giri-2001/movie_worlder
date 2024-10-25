@@ -20,7 +20,7 @@ const useApi = <T>(url: string, method: 'GET' | 'POST' = 'GET', options?: any): 
           method,
           headers: {
             accept: 'application/json',
-            Authorization: 'Bearer eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiIyZTc1MjJlNTM2MDdhZjQwZWIxMTUwZjQxYjc0ZjM4MCIsIm5iZiI6MTcyOTgzNDUyNi44MTI3MDEsInN1YiI6IjYwZjY3ODkyMjA5ZjE4MDA3ZDUyZmU5MiIsInNjb3BlcyI6WyJhcGlfcmVhZCJdLCJ2ZXJzaW9uIjoxfQ.FJOfeFqYKhZNc3poU1RcnowFqN-HQ_2zU3G40wqyxM0',
+            // Authorization: 'Bearer eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiIyZTc1MjJlNTM2MDdhZjQwZWIxMTUwZjQxYjc0ZjM4MCIsIm5iZiI6MTcyOTgzNDUyNi44MTI3MDEsInN1YiI6IjYwZjY3ODkyMjA5ZjE4MDA3ZDUyZmU5MiIsInNjb3BlcyI6WyJhcGlfcmVhZCJdLCJ2ZXJzaW9uIjoxfQ.FJOfeFqYKhZNc3poU1RcnowFqN-HQ_2zU3G40wqyxM0',
           },
           ...options,
         });

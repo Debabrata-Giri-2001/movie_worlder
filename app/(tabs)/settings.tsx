@@ -5,9 +5,9 @@ import { SafeAreaView } from 'react-native-safe-area-context'
 const Settings = () => {
     return (
         <SafeAreaView style={{ flex: 1, backgroundColor: '#2e2e2e', }}>
-            <View >
-                <Text>Setting</Text>
-            </View>
+            <Text style={{ textAlign: 'center', fontWeight: 'bold', fontSize: 22, color: '#FFF' }}>Settings</Text>
+
+           
         </SafeAreaView>
     )
 }

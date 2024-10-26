@@ -1,12 +1,12 @@
 import FavMovieCard from '@/components/FavMovieCard';
-import useApi from '@/hooks/useApi';
+import useApi, { useChange } from '@/hooks/useApi';
 import React from 'react';
-import { FlatList, Text, View, StyleSheet } from 'react-native';
+import { FlatList, Text, View, StyleSheet,RefreshControl } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 
 const Favorites = () => {
     const { data: account, loading: accountLoad, error: accountErr } = useApi<any>('account', 'GET');
-    const { data: movie, loading, error } = useApi<any>(`account/${account?.id}/favorite/movies?language=en-US&page=1&sort_by=created_at.asc`, 'GET');
+    const { data: movie, loading, error, refetch } = useApi<any>(`account/${account?.id}/favorite/movies?language=en-US&page=1&sort_by=created_at.asc`, 'GET');
 
     if (loading || accountLoad) {
         return (
@@ -28,10 +28,12 @@ const Favorites = () => {
         <SafeAreaView style={styles.container}>
             <Text style={{textAlign:'center',fontWeight:'bold',fontSize:22,color:'#FFF'}}>Favorites</Text>
             <FlatList
+                style={{marginBottom:50}}
                 data={movie?.results}
                 renderItem={({ item }) => <FavMovieCard data={item} />}
                 keyExtractor={(item: any) => item.id.toString()}
                 contentContainerStyle={styles.list}
+                refreshControl={<RefreshControl refreshing={loading} onRefresh={refetch} />}
             />
         </SafeAreaView>
     );

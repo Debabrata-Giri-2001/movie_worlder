@@ -4,10 +4,12 @@ import { SafeAreaView } from 'react-native-safe-area-context';
 import useApi from '@/hooks/useApi';
 import { FontAwesome } from '@expo/vector-icons';
 import { debounce } from '@/hooks/debounce';
+import { useTheme } from '@/components/ThemeContext';
 
 const Search = () => {
+    const { colors } = useTheme();
     const [keyword, setKeyword] = useState('');
-    const { data, loading, error } = useApi<any>(`search/keyword?query=${keyword}&page=1`,'GET');
+    const { data, loading, error } = useApi<any>(`search/keyword?query=${keyword}&page=1`, 'GET');
 
     const debouncedSetKeyword = useCallback(
         debounce((text: string) => setKeyword(text), 300),
@@ -23,10 +25,10 @@ const Search = () => {
     };
 
     return (
-        <SafeAreaView style={styles.container}>
-            <View style={styles.searchContainer}>
+        <SafeAreaView style={[styles.container, { backgroundColor: colors.background }]}>
+            <View style={[styles.searchContainer, { backgroundColor: '#c4c4c4' }]}>
                 <TextInput
-                    style={styles.input}
+                    style={[styles.input, { color: colors.text }]} // Use theme text color
                     placeholder="Search for a title..."
                     placeholderTextColor="#32A873"
                     value={keyword}
@@ -41,13 +43,14 @@ const Search = () => {
                 )}
             </View>
 
-            {loading && <Text style={styles.loading}>Loading...</Text>}
-
+            {loading && <Text style={[styles.loading, { color: colors.text }]}>Loading...</Text>}
             {data && (
                 <FlatList
                     data={data.results}
                     keyExtractor={(item) => item.id.toString()}
-                    renderItem={({ item }) => <Text style={styles.resultItem}>{item?.name}</Text>}
+                    renderItem={({ item }) => (
+                        <Text style={[styles.resultItem, { color: colors.text }]}>{item?.name}</Text>
+                    )}
                 />
             )}
         </SafeAreaView>
@@ -57,13 +60,11 @@ const Search = () => {
 const styles = StyleSheet.create({
     container: {
         flex: 1,
-        backgroundColor: '#2e2e2e',
         padding: 20,
     },
     searchContainer: {
         flexDirection: 'row',
         alignItems: 'center',
-        backgroundColor: '#3e3e3e',
         borderRadius: 10,
         paddingHorizontal: 10,
         marginBottom: 10,
@@ -73,21 +74,23 @@ const styles = StyleSheet.create({
     },
     input: {
         flex: 1,
-        color: 'white',
         fontSize: 16,
         paddingVertical: 10,
     },
     loading: {
-        color: 'white',
         fontSize: 16,
         textAlign: 'center',
         marginVertical: 20,
     },
     resultItem: {
-        color: 'white',
         fontSize: 16,
         margin: 4,
         padding: 5,
+    },
+    error: {
+        fontSize: 16,
+        textAlign: 'center',
+        marginVertical: 20,
     },
 });
 

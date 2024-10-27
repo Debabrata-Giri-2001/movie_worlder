@@ -4,7 +4,6 @@ import { SafeAreaView } from 'react-native-safe-area-context'
 import { MaterialCommunityIcons, Entypo, AntDesign } from '@expo/vector-icons';
 import { Link } from 'expo-router';
 import { useTheme } from '@/components/ThemeContext';
-import { StatusBar } from 'expo-status-bar';
 
 const Settings = () => {
     const { colors } = useTheme();
@@ -35,7 +34,7 @@ const Settings = () => {
             <Text style={{ textAlign: 'center', fontWeight: 'bold', fontSize: 22, color: '#FFF' }}>Settings</Text>
 
             {/* profile */}
-            <View style={styles.profileView}>
+            <View style={[styles.profileView,{borderColor:colors.text}]}>
                 <Image source={{ uri: 'https://cdn-icons-png.flaticon.com/512/1999/1999625.png' }} style={styles.profile} />
                 <View style={{ marginHorizontal: 30 }}>
                     <Text style={{ color: colors.text, fontWeight: '500', fontSize: 18 }}>Debabrata Giri</Text>
@@ -62,11 +61,13 @@ const Settings = () => {
 
 const styles = StyleSheet.create({
     profileView: {
-        display: 'flex',
         flexDirection: 'row',
         alignItems: 'center',
-        marginHorizontal: 30,
         marginTop: 15,
+        padding: 10,
+        marginHorizontal: 10,
+        borderRadius: 5,
+        borderWidth: 0.4,
     },
     profile: {
         height: 70,

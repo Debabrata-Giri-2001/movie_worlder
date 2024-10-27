@@ -5,6 +5,7 @@ import { useRoute } from '@react-navigation/native';
 import { FontAwesome5, FontAwesome } from '@expo/vector-icons';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import useApi, { useChange } from '@/hooks/useApi';
+import { useTheme } from '@/components/ThemeContext';
 
 type RouteParams = {
     id: string;
@@ -18,6 +19,7 @@ const MovieDetails = () => {
     const { data: movie, loading, error } = useApi<any>(`movie/${id}?language=en-US`, 'GET');
     const [isFavorite, setIsFavorite] = useState(false);
     const { change: fevPost, isChanging: fevLoad, error: fevErr } = useChange<any>();
+    const { colors } = useTheme();
 
     const handleFavorite = async () => {
         const payload = {
@@ -42,23 +44,23 @@ const MovieDetails = () => {
     //   if (favoriteError) return <Text>Error updating favorite: {favoriteError}</Text>;
 
     return (
-        <SafeAreaView style={{ flex: 1, backgroundColor: '#121212' }}>
+        <SafeAreaView style={{ flex: 1, backgroundColor: colors.background }}>
             <ScrollView>
                 <View style={styles.container}>
                     <View style={styles.header}>
                         <TouchableOpacity onPress={() => router.back()} style={styles.backButton}>
-                            <FontAwesome5 size={18} name="arrow-left" color="#FFF" />
+                            <FontAwesome5 size={18} name="arrow-left" color={colors.text} />
                         </TouchableOpacity>
 
                         <View style={styles.titleContainer}>
-                            <Text style={styles.headerTitle}>{movie.title}</Text>
+                            <Text style={[styles.headerTitle,{color:colors.text}]}>{movie.title}</Text>
                         </View>
 
                         <TouchableOpacity onPress={handleFavorite} style={styles.favoriteButton}>
                             <FontAwesome
                                 name={isFavorite ? 'heart' : 'heart-o'}
                                 size={24}
-                                color={isFavorite ? 'red' : 'white'}
+                                color={isFavorite ? 'red' : colors.text }
                             />
                         </TouchableOpacity>
                     </View>
@@ -70,7 +72,7 @@ const MovieDetails = () => {
                                 style={styles.posterImage}
                             />
                             <View style={{ padding: 6 }}>
-                                <Text style={styles.title}>{movie.title}</Text>
+                                <Text style={[styles.title,{color:colors.movieHeading}]}>{movie.title}</Text>
                                 <View style={styles.genresContainer}>
                                     {movie.genres.map((genre: any) => (
                                         <Text key={genre.id} style={styles.genre}>
@@ -83,7 +85,7 @@ const MovieDetails = () => {
                                     <Text style={styles.releaseDate}> | </Text>
                                     <Text style={styles.rating}>{movie.vote_average.toFixed(1)} / 10</Text>
                                 </View>
-                                <Text style={styles.overview}>{movie.overview}</Text>
+                                <Text style={[styles.overview,{color:colors.movieHeading}]}>{movie.overview}</Text>
                             </View>
                         </View>
                     )}
@@ -133,11 +135,9 @@ const styles = StyleSheet.create({
     },
     overview: {
         fontSize: 16,
-        color: 'lightgray',
     },
     title: {
         fontSize: 16,
-        color: 'lightgray',
         marginTop: 5,
         fontWeight: '500',
     },

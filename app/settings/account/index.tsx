@@ -4,10 +4,12 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import { useRouter } from 'expo-router';
 import { MaterialIcons } from '@expo/vector-icons';
 import { SafeAreaView } from 'react-native-safe-area-context';
+import { useTheme } from '@/components/ThemeContext';
 
 const Account = () => {
     const [profile, setProfile] = useState({ user: '', email: '', avatar: '', password: '' });
     const router = useRouter();
+    const { colors } = useTheme();
 
     useEffect(() => {
         const getProfileData = async () => {
@@ -40,8 +42,8 @@ const Account = () => {
     };
 
     return (
-        <SafeAreaView style={{ flex: 1, backgroundColor: '#2e2e2e', }}>
-            <Text style={styles.heading}>About</Text>
+        <SafeAreaView style={{ flex: 1, backgroundColor: colors.background, }}>
+            <Text style={[styles.heading,{color:colors.text}]}>About</Text>
 
             {/* Centered profile image */}
             <View style={styles.profileImageContainer}>
@@ -52,17 +54,17 @@ const Account = () => {
             </View>
 
             {/* Profile data below the image */}
-            <View style={styles.profileDetails}>
-                <Text style={styles.name}>User ID: {profile.user || 'Name not available'}</Text>
-                <Text style={styles.email}>Email: {profile.email || 'Email not available'}</Text>
-                <Text style={styles.email}>Password: {profile.password || 'Password not available'}</Text>
+            <View style={[styles.profileDetails,{borderColor:colors.text}]}>
+                <Text style={[styles.name,{color:colors.text}]}>User ID: {profile.user || 'Name not available'}</Text>
+                <Text style={[styles.email,{color:colors.text}]}>Email: {profile.email || 'Email not available'}</Text>
+                <Text style={[styles.email,{color:colors.text}]}>Password: {profile.password || 'Password not available'}</Text>
             </View>
 
             {/* Logout button at the bottom with icon */}
             <View style={styles.logoutButtonContainer}>
                 <TouchableOpacity style={styles.logoutButton} onPress={handleLogout}>
-                    <MaterialIcons name="logout" size={24} color="white" />
-                    <Text style={styles.logoutText}>Logout</Text>
+                    <MaterialIcons name="logout" size={24} color={colors.background} />
+                    <Text style={[styles.logoutText,{color:colors.background}]}>Logout</Text>
                 </TouchableOpacity>
             </View>
         </SafeAreaView>
@@ -79,7 +81,6 @@ const styles = StyleSheet.create({
         textAlign: 'center',
         fontWeight: 'bold',
         fontSize: 22,
-        color: '#FFF',
         marginBottom: 20,
     },
     profileImageContainer: {
@@ -93,19 +94,19 @@ const styles = StyleSheet.create({
     },
     profileDetails: {
         alignItems: 'flex-start',
-        backgroundColor: '#444',
-        padding: 20,
+        padding: 10,
         borderRadius: 10,
         marginTop: 20,
+        borderWidth:0.4,
+        marginLeft:10,
+        marginRight:14
     },
     name: {
-        color: '#FFF',
         fontSize: 18,
         fontWeight: '600',
         marginBottom: 5,
     },
     email: {
-        color: '#BBB',
         fontSize: 16,
         marginBottom: 5,
     },

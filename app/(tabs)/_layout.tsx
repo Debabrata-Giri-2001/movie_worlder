@@ -1,8 +1,10 @@
+import { useTheme } from '@/components/ThemeContext';
 import { MaterialIcons, FontAwesome } from '@expo/vector-icons';
 
 import { Tabs } from 'expo-router';
 
 export default function TabLayout() {
+  const { colors } = useTheme();
   return (
     <Tabs
       screenOptions={{
@@ -12,7 +14,7 @@ export default function TabLayout() {
           position: 'absolute',
           elevation: 2,
           height:60,
-          backgroundColor: '#121212',
+          backgroundColor: colors.background,
         },
       }}
     >

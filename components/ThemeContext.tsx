@@ -9,6 +9,11 @@ interface ThemeContextType {
         text: string;
         toggleTrack: string;
         toggleThumb: string;
+        error: string,
+        cardBackground: string,
+        placeholder: string,
+        icon: string,
+        movieHeading: string,
     };
 }
 
@@ -34,6 +39,11 @@ export const ThemeProvider: React.FC<{ children: ReactNode }> = ({ children }) =
             text: isDarkMode ? '#FFFFFF' : '#121212E5',
             toggleTrack: isDarkMode ? '#7aac95' : '#767577',
             toggleThumb: isDarkMode ? '#32A873' : '#f4f3f4',
+            error: '#FF0000',
+            cardBackground: '#1E1E1E',
+            placeholder: '#B0B0B0',
+            icon: '#32A873',
+            movieHeading: isDarkMode ? '#808080' : '#303030'
         },
     };
 

@@ -55,7 +55,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   buttonText1: {
-    color: '#FFFFFF', // Changed to white for better contrast
+    color: '#FFFFFF',
     fontSize: 16,
     fontWeight: 'bold',
   },

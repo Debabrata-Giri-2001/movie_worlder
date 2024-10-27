@@ -32,6 +32,7 @@ const Account = () => {
     const handleLogout = async () => {
         try {
             await AsyncStorage.removeItem('user-data');
+            await AsyncStorage.removeItem('favorites');
             Alert.alert('Logged Out', 'You have successfully logged out.', [
                 { text: 'OK', onPress: () => router.replace('/(auth)') },
             ]);

@@ -1,19 +1,21 @@
 import React from 'react';
 import { View, Text, Image, TouchableOpacity, StyleSheet } from 'react-native';
 import { MaterialIcons } from '@expo/vector-icons';
+import { useTheme } from './ThemeContext';
 
 const FavMovieCard = ({data}: any) => {
+    const { colors } = useTheme();
 
     return (
-        <View style={styles.card}>
+        <View style={[styles.card,{backgroundColor:colors.cardBackground}]}>
             <Image source={{ uri: `https://image.tmdb.org/t/p/w500${data?.backdrop_path}` }} style={styles.poster} />
             <View style={styles.info}>
-                <Text style={styles.title}>{data?.title}</Text>
-                <Text style={styles.releaseDate}>{data?.release_date}</Text>
+                <Text style={[styles.title,{color:colors.text}]}>{data?.title}</Text>
+                <Text style={[styles.releaseDate,{color:colors.movieHeading}]}>{data?.release_date}</Text>
             </View>
             <View style={styles.actions}>
                 <TouchableOpacity>
-                    <MaterialIcons name="more-vert" size={24} color="#fff" />
+                    <MaterialIcons name="more-vert" size={24} color={colors.text} />
                 </TouchableOpacity>
                 <Text style={styles.downloadTag}>Download</Text>
             </View>
@@ -25,7 +27,6 @@ const styles = StyleSheet.create({
     card: {
         flexDirection: 'row',
         padding: 10,
-        backgroundColor: '#333',
         borderRadius: 8,
         marginVertical: 8,
     },
@@ -40,12 +41,10 @@ const styles = StyleSheet.create({
     },
     title: {
         fontSize: 18,
-        color: '#fff',
         fontWeight: 'bold',
     },
     releaseDate: {
         fontSize: 14,
-        color: '#aaa',
         marginTop: 5,
     },
     actions: {

@@ -1,11 +1,12 @@
-import React, { useState } from 'react';
-import { View, Text, Image, StyleSheet, TouchableOpacity, ScrollView } from 'react-native';
+import React, { useEffect, useState } from 'react';
+import { View, Text, Image, StyleSheet, TouchableOpacity, ScrollView, Alert } from 'react-native';
 import { useRouter } from 'expo-router';
 import { useRoute } from '@react-navigation/native';
 import { FontAwesome5, FontAwesome } from '@expo/vector-icons';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import useApi, { useChange } from '@/hooks/useApi';
 import { useTheme } from '@/components/ThemeContext';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 type RouteParams = {
     id: string;
@@ -38,10 +39,44 @@ const MovieDetails = () => {
         }
     };
 
+    useEffect(() => {
+        const checkFavoriteStatus = async () => {
+            try {
+                const existingFavs = await AsyncStorage.getItem('favorites');
+                const favArray = existingFavs ? JSON.parse(existingFavs) : [];
+                const isFav = favArray.some((item: any) => item.id === movie?.id);
+                setIsFavorite(isFav);
+            } catch (error) {
+                console.error("Error checking favorite status", error);
+            }
+        };
+        checkFavoriteStatus();
+    }, [movie]);
+
+    const handelFavLocal = async () => {
+        try {
+            const existingFavs = await AsyncStorage.getItem('favorites');
+            let favArray = existingFavs ? JSON.parse(existingFavs) : [];
+
+            if (isFavorite) {
+                // Remove from favorites
+                favArray = favArray.filter((item: any) => item.id !== movie.id);
+                await AsyncStorage.setItem('favorites', JSON.stringify(favArray));
+                Alert.alert("Removed", `${movie.title} has been removed from your favorites.`);
+            } else {
+                favArray.push(movie);
+                await AsyncStorage.setItem('favorites', JSON.stringify(favArray));
+                Alert.alert("Added", `${movie.title} has been added to your favorites.`);
+            }
+            setIsFavorite(!isFavorite);
+        } catch (error) {
+            console.error("Error updating favorites", error);
+        }
+    };
+
 
     if (loading) return <Text>Loading...</Text>;
     if (error) return <Text>Error: {error}</Text>;
-    //   if (favoriteError) return <Text>Error updating favorite: {favoriteError}</Text>;
 
     return (
         <SafeAreaView style={{ flex: 1, backgroundColor: colors.background }}>
@@ -53,14 +88,14 @@ const MovieDetails = () => {
                         </TouchableOpacity>
 
                         <View style={styles.titleContainer}>
-                            <Text style={[styles.headerTitle,{color:colors.text}]}>{movie.title}</Text>
+                            <Text style={[styles.headerTitle, { color: colors.text }]}>{movie.title}</Text>
                         </View>
 
-                        <TouchableOpacity onPress={handleFavorite} style={styles.favoriteButton}>
+                        <TouchableOpacity onPress={handelFavLocal} style={styles.favoriteButton}>
                             <FontAwesome
                                 name={isFavorite ? 'heart' : 'heart-o'}
                                 size={24}
-                                color={isFavorite ? 'red' : colors.text }
+                                color={isFavorite ? 'red' : colors.text}
                             />
                         </TouchableOpacity>
                     </View>
@@ -72,7 +107,7 @@ const MovieDetails = () => {
                                 style={styles.posterImage}
                             />
                             <View style={{ padding: 6 }}>
-                                <Text style={[styles.title,{color:colors.movieHeading}]}>{movie.title}</Text>
+                                <Text style={[styles.title, { color: colors.movieHeading }]}>{movie.title}</Text>
                                 <View style={styles.genresContainer}>
                                     {movie.genres.map((genre: any) => (
                                         <Text key={genre.id} style={styles.genre}>
@@ -85,7 +120,7 @@ const MovieDetails = () => {
                                     <Text style={styles.releaseDate}> | </Text>
                                     <Text style={styles.rating}>{movie.vote_average.toFixed(1)} / 10</Text>
                                 </View>
-                                <Text style={[styles.overview,{color:colors.movieHeading}]}>{movie.overview}</Text>
+                                <Text style={[styles.overview, { color: colors.movieHeading }]}>{movie.overview}</Text>
                             </View>
                         </View>
                     )}

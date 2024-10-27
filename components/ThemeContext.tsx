@@ -40,7 +40,7 @@ export const ThemeProvider: React.FC<{ children: ReactNode }> = ({ children }) =
             toggleTrack: isDarkMode ? '#7aac95' : '#767577',
             toggleThumb: isDarkMode ? '#32A873' : '#f4f3f4',
             error: '#FF0000',
-            cardBackground: '#1E1E1E',
+            cardBackground: isDarkMode? '#333' : '#dfdfdf',
             placeholder: '#B0B0B0',
             icon: '#32A873',
             movieHeading: isDarkMode ? '#808080' : '#303030'

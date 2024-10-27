@@ -1,39 +1,51 @@
 import FavMovieCard from '@/components/FavMovieCard';
-import useApi, { useChange } from '@/hooks/useApi';
-import React from 'react';
-import { FlatList, Text, View, StyleSheet,RefreshControl } from 'react-native';
+import React, { useState, useCallback } from 'react';
+import { FlatList, Text, StyleSheet, RefreshControl } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import { useTheme } from '@/components/ThemeContext';
+import { useFocusEffect } from '@react-navigation/native';
 
 const Favorites = () => {
-    const { data: account, loading: accountLoad, error: accountErr } = useApi<any>('account', 'GET');
-    const { data: movie, loading, error, refetch } = useApi<any>(`account/${account?.id}/favorite/movies?language=en-US&page=1&sort_by=created_at.asc`, 'GET');
+    const { colors } = useTheme();
 
-    if (loading || accountLoad) {
-        return (
-            <SafeAreaView style={styles.container}>
-                <Text style={styles.loadingText}>Loading...</Text>
-            </SafeAreaView>
-        );
-    }
+    const [favoriteMovies, setFavoriteMovies] = useState<any[]>([]);
+    const [loading, setLoading] = useState(false);
 
-    if (error || accountErr) {
-        return (
-            <SafeAreaView style={styles.container}>
-                <Text style={styles.errorText}>Error loading data</Text>
-            </SafeAreaView>
-        );
-    }
+    const loadFavorites = async () => {
+        setLoading(true);
+        try {
+            const storedFavs = await AsyncStorage.getItem('favorites');
+            if (storedFavs) {
+                setFavoriteMovies(JSON.parse(storedFavs));
+            } else {
+                setFavoriteMovies([]);
+            }
+        } catch (error) {
+            console.error('Error loading favorites:', error);
+        } finally {
+            setLoading(false);
+        }
+    };
+
+    useFocusEffect(
+        useCallback(() => {
+            loadFavorites();
+        }, [])
+    );
 
     return (
-        <SafeAreaView style={styles.container}>
-            <Text style={{textAlign:'center',fontWeight:'bold',fontSize:22,color:'#FFF'}}>Favorites</Text>
+        <SafeAreaView style={[styles.container, { backgroundColor: colors.background }]}>
+            <Text style={{ textAlign: 'center', fontWeight: 'bold', fontSize: 22, color: '#FFF' }}>Favorites</Text>
+
             <FlatList
-                style={{marginBottom:50}}
-                data={movie?.results}
+                style={{ marginBottom: 50 }}
+                data={favoriteMovies}
                 renderItem={({ item }) => <FavMovieCard data={item} />}
                 keyExtractor={(item: any) => item.id.toString()}
                 contentContainerStyle={styles.list}
-                refreshControl={<RefreshControl refreshing={loading} onRefresh={refetch} />}
+                refreshControl={<RefreshControl refreshing={loading} onRefresh={loadFavorites} />}
+                ListEmptyComponent={<Text style={[styles.emptyText, { color: colors.text }]}>No favorite movies found</Text>}
             />
         </SafeAreaView>
     );
@@ -42,20 +54,12 @@ const Favorites = () => {
 const styles = StyleSheet.create({
     container: {
         flex: 1,
-        backgroundColor: '#121212',
         padding: 10,
     },
     list: {
         paddingBottom: 20,
     },
-    loadingText: {
-        color: '#fff',
-        fontSize: 16,
-        textAlign: 'center',
-        marginTop: 20,
-    },
-    errorText: {
-        color: 'red',
+    emptyText: {
         fontSize: 16,
         textAlign: 'center',
         marginTop: 20,

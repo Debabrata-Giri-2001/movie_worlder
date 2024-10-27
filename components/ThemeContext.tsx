@@ -30,8 +30,8 @@ export const ThemeProvider: React.FC<{ children: ReactNode }> = ({ children }) =
         isDarkMode,
         toggleTheme,
         colors: {
-            background: isDarkMode ? '#2e2e2e' : '#FFFFFF',
-            text: isDarkMode ? '#FFFFFF' : '#2e2e2e',
+            background: isDarkMode ? '#121212E5' : '#FFFFFF',
+            text: isDarkMode ? '#FFFFFF' : '#121212E5',
             toggleTrack: isDarkMode ? '#7aac95' : '#767577',
             toggleThumb: isDarkMode ? '#32A873' : '#f4f3f4',
         },

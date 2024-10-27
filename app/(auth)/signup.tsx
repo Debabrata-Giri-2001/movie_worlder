@@ -1,3 +1,4 @@
+import { useTheme } from '@/components/ThemeContext';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { Link, useRouter } from 'expo-router';
 import React, { useState } from 'react';
@@ -18,8 +19,10 @@ const Signup = () => {
   const [user, setUser] = useState('');
   const [password, setPassword] = useState('');
   const router = useRouter();
+  const { colors } = useTheme();
 
   const handleSignUp = async () => {
+
     // Validate input fields
     if (!email || !user || !password) {
       Alert.alert('Validation Error', 'All fields are required.');
@@ -44,8 +47,8 @@ const Signup = () => {
   };
 
   return (
-    <View style={styles.container}>
-      <Text style={styles.heading}>Sign Up</Text>
+    <View style={[styles.container, { backgroundColor: colors.background }]}>
+      <Text style={[styles.heading, { color: colors.text }]}>Sign Up</Text>
 
       {/* Email  */}
       <View style={styles.inputContainer}>
@@ -54,7 +57,7 @@ const Signup = () => {
           style={styles.icon}
         />
         <TextInput
-          style={styles.input}
+          style={[styles.input, { color: colors.text }]}
           placeholder="Email"
           placeholderTextColor="#777"
           keyboardType="email-address"
@@ -69,7 +72,7 @@ const Signup = () => {
           style={styles.icon}
         />
         <TextInput
-          style={styles.input}
+          style={[styles.input, { color: colors.text }]}
           placeholder="Username"
           placeholderTextColor="#777"
           value={user}
@@ -83,7 +86,7 @@ const Signup = () => {
           style={styles.icon}
         />
         <TextInput
-          style={styles.input}
+          style={[styles.input, { color: colors.text }]}
           placeholder="Password"
           placeholderTextColor="#777"
           secureTextEntry={!showPassword}
@@ -103,10 +106,10 @@ const Signup = () => {
       </View>
 
       <Pressable style={styles.signupButton} onPress={handleSignUp}>
-        <Text style={styles.signupButtonText}>Create Account</Text>
+        <Text style={[styles.signupButtonText, { color: colors.background, }]}>Create Account</Text>
       </Pressable>
 
-      <Text style={styles.footerText}>
+      <Text style={[styles.footerText, { color: colors.text, }]}>
         Already have an account?{' '}
         <Link href="/login" asChild>
           <Text style={styles.loginText}>
@@ -155,7 +158,6 @@ const styles = StyleSheet.create({
     flex: 1,
     paddingVertical: 15,
     fontSize: 16,
-    color: '#000',
   },
   signupButton: {
     width: '100%',
@@ -167,12 +169,10 @@ const styles = StyleSheet.create({
     marginTop: 30,
   },
   signupButtonText: {
-    color: '#000',
     fontSize: 16,
     fontWeight: 'bold',
   },
   footerText: {
-    color: '#fff',
     fontSize: 14,
   },
   loginText: {

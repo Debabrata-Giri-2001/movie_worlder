@@ -1,3 +1,4 @@
+import { useTheme } from '@/components/ThemeContext';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { Link, useRouter } from 'expo-router';
 import React, { useState } from 'react';
@@ -17,6 +18,7 @@ const Login = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const router = useRouter();
+  const { colors } = useTheme();
 
   const handelLogin = async () => {
     try {
@@ -25,7 +27,7 @@ const Login = () => {
         const { email: storedEmail, password: storedPassword } = JSON.parse(storedData);
         if (email === storedEmail && password === storedPassword) {
           await AsyncStorage.setItem("isLoggedIn", "true");
-          
+
           Alert.alert("Login Successful", "Welcome back!", [
             { text: "OK", onPress: () => router.replace("/(tabs)") },
           ]);
@@ -40,19 +42,19 @@ const Login = () => {
       Alert.alert("Error", "An unexpected error occurred.");
     }
   };
-  
+
 
   return (
-    <View style={styles.container}>
-      <Text style={styles.heading}>Login</Text>
+    <View style={[styles.container, { backgroundColor: colors.background }]}>
+      <Text style={[styles.heading, { color: colors.text }]}>Login</Text>
 
-      <View style={styles.inputContainer}>
+      <View style={[styles.inputContainer, { backgroundColor: colors.background }]}>
         <Image
           source={{ uri: 'https://cdn-icons-png.flaticon.com/512/542/542689.png' }}
-          style={styles.icon}
+          style={[styles.icon,{tintColor:colors.text}]}
         />
         <TextInput
-          style={styles.input}
+          style={[styles.input, { color: colors.text }]}
           placeholder="Email"
           placeholderTextColor="#777"
           inputMode="email"
@@ -61,13 +63,13 @@ const Login = () => {
         />
       </View>
 
-      <View style={styles.inputContainer}>
+      <View style={[styles.inputContainer, { backgroundColor: colors.background }]}>
         <Image
           source={{ uri: 'https://cdn-icons-png.flaticon.com/512/483/483408.png' }}
-          style={styles.icon}
+          style={[styles.icon,{tintColor:colors.text}]}
         />
         <TextInput
-          style={styles.input}
+          style={[styles.input, { color: colors.text }]}
           value={password}
           onChangeText={setPassword}
           placeholder="Password"
@@ -81,16 +83,16 @@ const Login = () => {
                 ? 'https://cdn-icons-png.flaticon.com/512/63/63498.png'
                 : 'https://cdn-icons-png.flaticon.com/512/7508/7508559.png'
             }}
-            style={styles.iconRight}
+            style={[styles.iconRight,{tintColor:colors.text}]}
           />
         </TouchableOpacity>
       </View>
 
       <Pressable style={styles.loginButton} onPress={handelLogin}>
-        <Text style={styles.loginButtonText}>Login</Text>
+        <Text style={[styles.loginButtonText, {color: colors.background,}]}>Login</Text>
       </Pressable>
 
-      <Text style={styles.footerText}>
+      <Text style={[styles.footerText, { color: colors.text, }]}>
         Haven’t made an account?{' '}
         <Link href="/signup" asChild>
           <Text style={styles.signupText}>Sign Up</Text>
@@ -105,20 +107,17 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
-    backgroundColor: '#121212',
     paddingHorizontal: 20,
   },
   heading: {
     fontSize: 32,
     fontWeight: 'bold',
-    color: '#fff',
     marginBottom: 40,
   },
   inputContainer: {
     width: '100%',
     flexDirection: 'row',
     alignItems: 'center',
-    backgroundColor: '#fff',
     borderRadius: 5,
     marginBottom: 15,
     paddingHorizontal: 10,
@@ -137,13 +136,6 @@ const styles = StyleSheet.create({
     flex: 1,
     paddingVertical: 15,
     fontSize: 16,
-    color: '#000',
-  },
-  inactiveText: {
-    color: '#777',
-    fontSize: 14,
-    marginBottom: 20,
-    alignSelf: 'flex-start',
   },
   loginButton: {
     width: '100%',
@@ -154,12 +146,10 @@ const styles = StyleSheet.create({
     marginBottom: 20,
   },
   loginButtonText: {
-    color: '#000',
     fontSize: 16,
     fontWeight: 'bold',
   },
   footerText: {
-    color: '#fff',
     fontSize: 14,
   },
   signupText: {

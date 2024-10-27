@@ -1,22 +1,24 @@
 import React from 'react';
 import { Text, Pressable, View, Image, StyleSheet } from 'react-native';
 import { Link } from 'expo-router';
+import { useTheme } from '@/components/ThemeContext';
 
 const OnBoarding = () => {
+  const { colors } = useTheme();
+
   return (
     <View style={styles.container}>
       <Image
         source={{ uri: 'https://image.tmdb.org/t/p/w600_and_h900_bestv2/k42Owka8v91trK1qMYwCQCNwJKr.jpg' }}
         style={styles.backgroundImage}
       />
-      <View style={styles.buttonContainer}>
-
+      <View style={[styles.buttonContainer, { backgroundColor: colors.background }]}>
         <Link href="/login" asChild>
           <Pressable style={styles.button1}>
             <Text style={styles.buttonText1}>Login</Text>
           </Pressable>
         </Link>
-        
+
         <Link href="/signup" asChild>
           <Pressable style={styles.button2}>
             <Text style={styles.buttonText2}>Sign Up</Text>
@@ -40,11 +42,9 @@ const styles = StyleSheet.create({
   },
   buttonContainer: {
     height: '30%',
-    display: 'flex',
     flexDirection: 'column',
     justifyContent: 'space-evenly',
     padding: 20,
-    backgroundColor: '#121212E5',
     borderTopRightRadius: 20,
     borderTopLeftRadius: 20,
   },
@@ -55,7 +55,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   buttonText1: {
-    color: '#000',
+    color: '#FFFFFF', // Changed to white for better contrast
     fontSize: 16,
     fontWeight: 'bold',
   },

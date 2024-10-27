@@ -51,10 +51,10 @@ const Signup = () => {
       <Text style={[styles.heading, { color: colors.text }]}>Sign Up</Text>
 
       {/* Email  */}
-      <View style={styles.inputContainer}>
+      <View style={[styles.inputContainer,{ backgroundColor: colors.background }]}>
         <Image
           source={{ uri: 'https://cdn-icons-png.flaticon.com/512/542/542689.png' }}
-          style={styles.icon}
+          style={[styles.icon,{tintColor:colors.text}]}
         />
         <TextInput
           style={[styles.input, { color: colors.text }]}
@@ -66,10 +66,10 @@ const Signup = () => {
         />
       </View>
       {/* user name */}
-      <View style={styles.inputContainer}>
+      <View style={[styles.inputContainer,{ backgroundColor: colors.background }]}>
         <Image
           source={{ uri: 'https://cdn-icons-png.flaticon.com/512/456/456212.png' }}
-          style={styles.icon}
+          style={[styles.icon,{tintColor:colors.text}]}
         />
         <TextInput
           style={[styles.input, { color: colors.text }]}
@@ -80,10 +80,10 @@ const Signup = () => {
         />
       </View>
       {/* password */}
-      <View style={styles.inputContainer}>
+      <View style={[styles.inputContainer,{ backgroundColor: colors.background }]}>
         <Image
           source={{ uri: 'https://cdn-icons-png.flaticon.com/512/483/483408.png' }}
-          style={styles.icon}
+          style={[styles.icon,{tintColor:colors.text}]}
         />
         <TextInput
           style={[styles.input, { color: colors.text }]}
@@ -100,7 +100,7 @@ const Signup = () => {
                 ? 'https://cdn-icons-png.flaticon.com/512/63/63498.png'
                 : 'https://cdn-icons-png.flaticon.com/512/7508/7508559.png'
             }}
-            style={styles.iconRight}
+            style={[styles.iconRight,{tintColor:colors.text}]}
           />
         </TouchableOpacity>
       </View>

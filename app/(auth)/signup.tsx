@@ -1,4 +1,5 @@
-import { Link } from 'expo-router';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import { Link, useRouter } from 'expo-router';
 import React, { useState } from 'react';
 import {
   Text,
@@ -7,18 +8,46 @@ import {
   View,
   StyleSheet,
   TouchableOpacity,
-  Image
+  Image,
+  Alert
 } from 'react-native';
 
 const Signup = () => {
-  const [showPassword, setShowPassword] = useState(false); // State to toggle password visibility
+  const [showPassword, setShowPassword] = useState(false);
+  const [email, setEmail] = useState('');
+  const [user, setUser] = useState('');
+  const [password, setPassword] = useState('');
+  const router = useRouter();
+
+  const handleSignUp = async () => {
+    // Validate input fields
+    if (!email || !user || !password) {
+      Alert.alert('Validation Error', 'All fields are required.');
+      return;
+    }
+
+    try {
+      const signUpData = JSON.stringify({ email, user, password });
+      await AsyncStorage.setItem('user-data', signUpData);
+
+      // Show success alert
+      Alert.alert('Success', 'Account created successfully.', [
+        {
+          text: 'OK',
+          onPress: () => router.replace("/(auth)/login"),
+        },
+      ]);
+    } catch (error) {
+      console.error(error);
+      Alert.alert('Error', 'Failed to create account. Please try again.');
+    }
+  };
 
   return (
     <View style={styles.container}>
       <Text style={styles.heading}>Sign Up</Text>
 
-
-      {/* Email Input with PNG Icon */}
+      {/* Email  */}
       <View style={styles.inputContainer}>
         <Image
           source={{ uri: 'https://cdn-icons-png.flaticon.com/512/542/542689.png' }}
@@ -28,11 +57,12 @@ const Signup = () => {
           style={styles.input}
           placeholder="Email"
           placeholderTextColor="#777"
-          inputMode="email"
+          keyboardType="email-address"
+          value={email}
+          onChangeText={setEmail}
         />
       </View>
-
-      {/* Username Input with PNG Icon */}
+      {/* user name */}
       <View style={styles.inputContainer}>
         <Image
           source={{ uri: 'https://cdn-icons-png.flaticon.com/512/456/456212.png' }}
@@ -42,11 +72,11 @@ const Signup = () => {
           style={styles.input}
           placeholder="Username"
           placeholderTextColor="#777"
+          value={user}
+          onChangeText={setUser}
         />
       </View>
-
-
-      {/* Password Input with PNG Icons */}
+      {/* password */}
       <View style={styles.inputContainer}>
         <Image
           source={{ uri: 'https://cdn-icons-png.flaticon.com/512/483/483408.png' }}
@@ -57,6 +87,8 @@ const Signup = () => {
           placeholder="Password"
           placeholderTextColor="#777"
           secureTextEntry={!showPassword}
+          value={password}
+          onChangeText={setPassword}
         />
         <TouchableOpacity onPress={() => setShowPassword(!showPassword)}>
           <Image
@@ -70,7 +102,7 @@ const Signup = () => {
         </TouchableOpacity>
       </View>
 
-      <Pressable style={styles.signupButton}>
+      <Pressable style={styles.signupButton} onPress={handleSignUp}>
         <Text style={styles.signupButtonText}>Create Account</Text>
       </Pressable>
 
@@ -91,7 +123,7 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
-    backgroundColor: '#121212', // Background color
+    backgroundColor: '#121212',
     paddingHorizontal: 20,
   },
   heading: {
@@ -132,7 +164,7 @@ const styles = StyleSheet.create({
     borderRadius: 5,
     alignItems: 'center',
     marginBottom: 25,
-    marginTop: 30
+    marginTop: 30,
   },
   signupButtonText: {
     color: '#000',

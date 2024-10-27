@@ -1,4 +1,5 @@
-import { Link } from 'expo-router';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import { Link, useRouter } from 'expo-router';
 import React, { useState } from 'react';
 import {
   Text,
@@ -7,11 +8,39 @@ import {
   View,
   StyleSheet,
   TouchableOpacity,
-  Image
+  Image,
+  Alert
 } from 'react-native';
 
 const Login = () => {
   const [showPassword, setShowPassword] = useState(false);
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+  const router = useRouter();
+
+  const handelLogin = async () => {
+    try {
+      const storedData = await AsyncStorage.getItem('user-data');
+      if (storedData) {
+        const { email: storedEmail, password: storedPassword } = JSON.parse(storedData);
+        if (email === storedEmail && password === storedPassword) {
+          await AsyncStorage.setItem("isLoggedIn", "true");
+          
+          Alert.alert("Login Successful", "Welcome back!", [
+            { text: "OK", onPress: () => router.replace("/(tabs)") },
+          ]);
+        } else {
+          Alert.alert("Login Failed", "Invalid email or password.");
+        }
+      } else {
+        Alert.alert("Error", "No account found. Please sign up first.");
+      }
+    } catch (error) {
+      console.log(error);
+      Alert.alert("Error", "An unexpected error occurred.");
+    }
+  };
+  
 
   return (
     <View style={styles.container}>
@@ -27,6 +56,8 @@ const Login = () => {
           placeholder="Email"
           placeholderTextColor="#777"
           inputMode="email"
+          value={email}
+          onChangeText={setEmail}
         />
       </View>
 
@@ -37,6 +68,8 @@ const Login = () => {
         />
         <TextInput
           style={styles.input}
+          value={password}
+          onChangeText={setPassword}
           placeholder="Password"
           placeholderTextColor="#777"
           secureTextEntry={!showPassword}
@@ -50,22 +83,17 @@ const Login = () => {
             }}
             style={styles.iconRight}
           />
-
         </TouchableOpacity>
       </View>
 
-      <Text style={styles.inactiveText}>Inactive</Text>
-
-      <Pressable style={styles.loginButton}>
+      <Pressable style={styles.loginButton} onPress={handelLogin}>
         <Text style={styles.loginButtonText}>Login</Text>
       </Pressable>
 
       <Text style={styles.footerText}>
         Haven’t made an account?{' '}
         <Link href="/signup" asChild>
-          <Text style={styles.signupText}>
-            Sign Up
-          </Text>
+          <Text style={styles.signupText}>Sign Up</Text>
         </Link>
       </Text>
     </View>

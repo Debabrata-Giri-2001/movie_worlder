@@ -2,6 +2,7 @@ import React from 'react'
 import { Image, StyleSheet, Text, View } from 'react-native'
 import { SafeAreaView } from 'react-native-safe-area-context'
 import { MaterialCommunityIcons, Entypo, AntDesign } from '@expo/vector-icons';
+import { Link } from 'expo-router';
 
 const Settings = () => {
 
@@ -10,19 +11,19 @@ const Settings = () => {
             id: "1",
             title: "Account",
             icon: <MaterialCommunityIcons name={"account-cog"} size={24} color={'white'} />,
-            page: "Account"
+            page: '/settings/account'
         },
         {
             id: "2",
             title: "Appearance",
             icon: <AntDesign name={"play"} size={24} color={'white'} />,
-            page: "Appearance"
+            page: '/settings/appearance'
         },
         {
             id: "3",
             title: "Help",
             icon: <Entypo name={"help-with-circle"} size={24} color={'white'} />,
-            page: "help"
+            page: '/settings/help'
         },
     ]
 
@@ -41,13 +42,14 @@ const Settings = () => {
             {/* all action */}
             <View style={{ marginTop: 15 }}>
                 {data?.map((i) => (
-                    <View
-                        key={i?.id}
-                        style={styles.actions}
-                    >
-                        <View style={{ marginRight: 10 }}>{i?.icon}</View>
-                        <Text style={{ color: '#FFF', fontWeight: '400', fontSize: 16 }}>{i?.title}</Text>
-                    </View>
+                    <Link href={i?.page} key={i?.id}>
+                        <View
+                            style={styles.actions}
+                        >
+                            <View style={{ marginRight: 10 }}>{i?.icon}</View>
+                            <Text style={{ color: '#FFF', fontWeight: '400', fontSize: 16 }}>{i?.title}</Text>
+                        </View>
+                    </Link>
                 ))}
             </View>
 

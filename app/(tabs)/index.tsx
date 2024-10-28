@@ -5,6 +5,7 @@ import React from 'react';
 import { Text, View, ScrollView, StyleSheet, Dimensions, Image } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { useTheme } from '@/components/ThemeContext';
+import i18n from '@/app/i18n';
 
 const { height } = Dimensions.get('window');
 
@@ -37,7 +38,7 @@ const Home = () => {
                 )}
 
                 {/* Popular Movies Section */}
-                <Text style={[styles.sectionTitle, { color: colors.text }]}>Popular</Text>
+                <Text style={[styles.sectionTitle, { color: colors.text }]}>{i18n.t("Popular")}</Text>
                 <ScrollView horizontal showsHorizontalScrollIndicator={false}>
                     {popularMovies?.results.map((movie: { id: number | string; title: string; poster_path: string }) => (
                         <Link style={{ marginLeft: 5, marginRight: 5 }} href={`about/${movie?.id}` as any} key={movie.id}>
@@ -47,7 +48,7 @@ const Home = () => {
                 </ScrollView>
 
                 {/* Now Playing Section */}
-                <Text style={[styles.sectionTitle, { color: colors.text }]}>Now Playing</Text>
+                <Text style={[styles.sectionTitle, { color: colors.text }]}>{i18n.t("NowPlaying")}</Text>
                 <ScrollView style={{ marginLeft: 10, marginRight: 10 }} horizontal showsHorizontalScrollIndicator={false}>
                     {nowPlaying?.results.map((movie: any) => (
                         <Link style={{ marginLeft: 5, marginRight: 5 }} href={`about/${movie?.id}` as any} key={movie.id}>
@@ -57,7 +58,7 @@ const Home = () => {
                 </ScrollView>
 
                 {/* Upcoming Movies Section */}
-                <Text style={[styles.sectionTitle, { color: colors.text }]}>Upcoming</Text>
+                <Text style={[styles.sectionTitle, { color: colors.text }]}>{i18n.t("Upcoming")}</Text>
                 <ScrollView style={{ marginLeft: 10, marginRight: 10 }} horizontal showsHorizontalScrollIndicator={false}>
                     {upcoming?.results.map((movie: any) => (
                         <Link style={{ marginLeft: 5, marginRight: 5 }} href={`about/${movie?.id}` as any} key={movie.id}>
@@ -66,7 +67,7 @@ const Home = () => {
                 </ScrollView>
 
                 {/* Top Rated Section */}
-                <Text style={[styles.sectionTitle, { color: colors.text }]}>Top Rated</Text>
+                <Text style={[styles.sectionTitle, { color: colors.text }]}>{i18n.t("TopRated")}</Text>
                 <ScrollView style={{ marginLeft: 10, marginRight: 10 }} horizontal showsHorizontalScrollIndicator={false}>
                     {topRated?.results.map((movie: any) => (
                         <Link style={{ marginLeft: 5, marginRight: 5 }} href={`about/${movie?.id}` as any} key={movie.id}>

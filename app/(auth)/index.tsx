@@ -2,6 +2,7 @@ import React from 'react';
 import { Text, Pressable, View, Image, StyleSheet } from 'react-native';
 import { Link } from 'expo-router';
 import { useTheme } from '@/components/ThemeContext';
+import i18n from '@/app/i18n';
 
 const OnBoarding = () => {
   const { colors } = useTheme();
@@ -15,13 +16,13 @@ const OnBoarding = () => {
       <View style={[styles.buttonContainer, { backgroundColor: colors.background }]}>
         <Link href="/login" asChild>
           <Pressable style={styles.button1}>
-            <Text style={styles.buttonText1}>Login</Text>
+            <Text style={styles.buttonText1}>{i18n.t('Login')}</Text>
           </Pressable>
         </Link>
 
         <Link href="/signup" asChild>
           <Pressable style={styles.button2}>
-            <Text style={styles.buttonText2}>Sign Up</Text>
+            <Text style={styles.buttonText2}>{i18n.t("SignUp")}</Text>
           </Pressable>
         </Link>
       </View>

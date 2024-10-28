@@ -12,6 +12,7 @@ import {
   Image,
   Alert
 } from 'react-native';
+import i18n from '@/app/i18n';
 
 const Signup = () => {
   const [showPassword, setShowPassword] = useState(false);
@@ -33,7 +34,6 @@ const Signup = () => {
       const signUpData = JSON.stringify({ email, user, password });
       await AsyncStorage.setItem('user-data', signUpData);
 
-      // Show success alert
       Alert.alert('Success', 'Account created successfully.', [
         {
           text: 'OK',
@@ -113,7 +113,7 @@ const Signup = () => {
         Already have an account?{' '}
         <Link href="/login" asChild>
           <Text style={styles.loginText}>
-            Login
+            {i18n.t("Login")}
           </Text>
         </Link>
       </Text>

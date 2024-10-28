@@ -4,6 +4,7 @@ import { SafeAreaView } from 'react-native-safe-area-context'
 import { MaterialCommunityIcons, Entypo, AntDesign } from '@expo/vector-icons';
 import { Link } from 'expo-router';
 import { useTheme } from '@/components/ThemeContext';
+import i18n from '@/app/i18n';
 
 const Settings = () => {
     const { colors } = useTheme();
@@ -11,19 +12,19 @@ const Settings = () => {
     const data = [
         {
             id: "1",
-            title: "Account",
+            title: i18n.t("Account"),
             icon: <MaterialCommunityIcons name={"account-cog"} size={24} color={colors.text} />,
             page: '/settings/account'
         },
         {
             id: "2",
-            title: "Appearance",
+            title: i18n.t("Appearance"),
             icon: <AntDesign name={"play"} size={24} color={colors.text} />,
             page: '/settings/appearance'
         },
         {
             id: "3",
-            title: "Help",
+            title: i18n.t("Help"),
             icon: <Entypo name={"help-with-circle"} size={24} color={colors.text} />,
             page: '/settings/help'
         },
@@ -31,7 +32,7 @@ const Settings = () => {
 
     return (
         <SafeAreaView style={{ flex: 1, backgroundColor: colors.background, }}>
-            <Text style={{ textAlign: 'center', fontWeight: 'bold', fontSize: 22, color: '#FFF' }}>Settings</Text>
+            <Text style={{ textAlign: 'center', fontWeight: 'bold', fontSize: 22, color: '#FFF' }}>{i18n.t("Settings")}</Text>
 
             {/* profile */}
             <View style={[styles.profileView,{borderColor:colors.text}]}>

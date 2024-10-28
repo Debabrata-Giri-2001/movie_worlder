@@ -1,0 +1,18 @@
+export default {
+  appearance: "Appearance",
+  darkMode: "Dark Mode",
+  selectLanguage: "Select Language",
+  Login: "Login",
+  SignUp: "Sign Up",
+  Home:"Home",
+  Search:"Search",
+  Favorites:"Favorites",
+  Settings:"Settings",
+  Popular:"Popular",
+  NowPlaying:"Now Playing",
+  Upcoming:"Upcoming",
+  TopRated:"Top Rated",
+  Account:"Account",
+  Appearance:"Appearance",
+  Help:"Help",
+};

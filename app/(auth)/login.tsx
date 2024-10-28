@@ -12,6 +12,7 @@ import {
   Image,
   Alert
 } from 'react-native';
+import i18n from '@/app/i18n';
 
 const Login = () => {
   const [showPassword, setShowPassword] = useState(false);
@@ -89,13 +90,13 @@ const Login = () => {
       </View>
 
       <Pressable style={styles.loginButton} onPress={handelLogin}>
-        <Text style={[styles.loginButtonText, {color: colors.background,}]}>Login</Text>
+        <Text style={[styles.loginButtonText, {color: colors.background,}]}>{i18n.t("Login")}</Text>
       </Pressable>
 
       <Text style={[styles.footerText, { color: colors.text, }]}>
         Haven’t made an account?{' '}
         <Link href="/signup" asChild>
-          <Text style={styles.signupText}>Sign Up</Text>
+          <Text style={styles.signupText}>{i18n.t("SignUp")}</Text>
         </Link>
       </Text>
     </View>

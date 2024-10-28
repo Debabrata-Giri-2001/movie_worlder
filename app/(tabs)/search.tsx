@@ -28,7 +28,7 @@ const Search = () => {
         <SafeAreaView style={[styles.container, { backgroundColor: colors.background }]}>
             <View style={[styles.searchContainer, { backgroundColor: '#c4c4c4' }]}>
                 <TextInput
-                    style={[styles.input, { color: colors.text }]} // Use theme text color
+                    style={[styles.input, { color: colors.text }]}
                     placeholder="Search for a title..."
                     placeholderTextColor="#32A873"
                     value={keyword}

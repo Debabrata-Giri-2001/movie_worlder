@@ -1,14 +1,29 @@
-import React from 'react'
-import { Image, StyleSheet, Text, View } from 'react-native'
+import React, { useEffect, useState } from 'react'
+import { Alert, Image, StyleSheet, Text, View } from 'react-native'
 import { SafeAreaView } from 'react-native-safe-area-context'
 import { MaterialCommunityIcons, Entypo, AntDesign } from '@expo/vector-icons';
 import { Link } from 'expo-router';
 import { useTheme } from '@/components/ThemeContext';
 import i18n from '@/app/i18n';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 const Settings = () => {
+    const [profile, setProfile] = useState({ user: '', email: '', avatar: '', password: '' });
     const { colors } = useTheme();
-
+    useEffect(() => {
+        const getProfileData = async () => {
+            try {
+                const storedProfile = await AsyncStorage.getItem('user-data');
+                if (storedProfile) {
+                    setProfile(JSON.parse(storedProfile));
+                }
+            } catch (error) {
+                console.log('Error :', error);
+                Alert.alert('Error', 'Unable to fetch profile data.');
+            }
+        };
+        getProfileData();
+    }, []);
     const data = [
         {
             id: "1",
@@ -38,8 +53,8 @@ const Settings = () => {
             <View style={[styles.profileView,{borderColor:colors.text}]}>
                 <Image source={{ uri: 'https://cdn-icons-png.flaticon.com/512/1999/1999625.png' }} style={styles.profile} />
                 <View style={{ marginHorizontal: 30 }}>
-                    <Text style={{ color: colors.text, fontWeight: '500', fontSize: 18 }}>Debabrata Giri</Text>
-                    <Text style={{ color: colors.text, fontWeight: '300', fontSize: 16, marginTop: 12 }}>debabratagiri5525@gamil.com</Text>
+                    <Text style={{ color: colors.text, fontWeight: '500', fontSize: 18 }}>{profile.user}</Text>
+                    <Text style={{ color: colors.text, fontWeight: '300', fontSize: 16, marginTop: 12 }}>{profile.email}</Text>
                 </View>
             </View>
             {/* all action */}

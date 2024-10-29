@@ -15,4 +15,6 @@ export default {
   Account:"Cuenta",
   Appearance:"Apariencia",
   Help:"Ayuda",
+  PopularTV:"Popular TV",
+  top_rated:"Top Rated TV",
 };

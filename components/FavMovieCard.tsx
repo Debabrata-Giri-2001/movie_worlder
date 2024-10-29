@@ -3,64 +3,84 @@ import { View, Text, Image, TouchableOpacity, StyleSheet } from 'react-native';
 import { MaterialIcons } from '@expo/vector-icons';
 import { useTheme } from './ThemeContext';
 
-const FavMovieCard = ({data}: any) => {
+const FavMovieCard = ({ data }: any) => {
     const { colors } = useTheme();
-
     return (
-        <View style={[styles.card,{backgroundColor:colors.cardBackground}]}>
-            <Image source={{ uri: `https://image.tmdb.org/t/p/w500${data?.backdrop_path}` }} style={styles.poster} />
-            <View style={styles.info}>
-                <Text style={[styles.title,{color:colors.text}]}>{data?.title}</Text>
-                <Text style={[styles.releaseDate,{color:colors.movieHeading}]}>{data?.release_date}</Text>
+        <View style={[styles.card, { backgroundColor: colors.cardBackground }]}>
+            {/* Movie Poster and Type */}
+            <View style={{display:'flex',flexDirection:'column',alignItems:"center"}}>
+                <Image source={{ uri: `https://image.tmdb.org/t/p/w500${data?.backdrop_path}` }} style={styles.poster} />
+                <Text style={[styles.type, { color: colors.text }]}>
+                    {data?.title ? "Movie" : "TV Show"}
+                </Text>
             </View>
-            <View style={styles.actions}>
+
+            {/* Movie Info */}
+            <View style={styles.infoContainer}>
+                <Text style={[styles.title, { color: colors.text }]}>
+                    {data?.title || data?.name}
+                </Text>
+                <Text style={[styles.releaseDate, { color: colors.movieHeading }]}>
+                    {data?.release_date || data?.first_air_date}
+                </Text>
+            </View>
+
+            {/* Actions */}
+            <View style={styles.actionsContainer}>
                 <TouchableOpacity>
                     <MaterialIcons name="more-vert" size={24} color={colors.text} />
                 </TouchableOpacity>
                 <Text style={styles.downloadTag}>Download</Text>
             </View>
         </View>
-    )
-}
+    );
+};
 
 const styles = StyleSheet.create({
     card: {
         flexDirection: 'row',
-        padding: 10,
-        borderRadius: 8,
-        marginVertical: 8,
+        padding: 6,
+        borderRadius: 10,
+        marginVertical: 5,
     },
     poster: {
         width: 80,
         height: 120,
         borderRadius: 8,
     },
-    info: {
+    infoContainer: {
         flex: 1,
-        paddingLeft: 10,
+        paddingLeft: 12,
+    },
+    type: {
+        fontSize: 14,
+        fontWeight:'600',
+        marginTop:5
     },
     title: {
         fontSize: 18,
         fontWeight: 'bold',
+        marginBottom: 4,
     },
     releaseDate: {
         fontSize: 14,
-        marginTop: 5,
+        color: '#777',
     },
-    actions: {
+    actionsContainer: {
+        alignItems: 'flex-end',
         justifyContent: 'space-between',
-        alignItems: 'center',
     },
     downloadTag: {
-        backgroundColor:'#EAFFE7',
+        backgroundColor: '#EAFFE7',
         color: '#7BBB71',
         fontSize: 12,
-        padding:3,
-        borderRadius:5,
-        borderWidth:1,
-        borderColor:'#77BB71',
-        marginTop: 10,
+        paddingVertical: 4,
+        paddingHorizontal: 8,
+        borderRadius: 5,
+        borderColor: '#77BB71',
+        borderWidth: 1,
+        marginTop: 8,
     },
 });
 
-export default FavMovieCard
+export default FavMovieCard;

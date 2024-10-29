@@ -12,7 +12,7 @@ const Search = () => {
     const { data, loading, error } = useApi<any>(`search/keyword?query=${keyword}&page=1`, 'GET');
 
     const debouncedSetKeyword = useCallback(
-        debounce((text: string) => setKeyword(text), 300),
+        debounce((text: string) => setKeyword(text), 100),
         []
     );
 

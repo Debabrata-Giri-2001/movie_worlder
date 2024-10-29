@@ -6,6 +6,8 @@ import { Text, View, ScrollView, StyleSheet, Dimensions, Image } from 'react-nat
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { useTheme } from '@/components/ThemeContext';
 import i18n from '@/app/i18n';
+import { Feather } from '@expo/vector-icons';
+import TVCard from '@/components/TVCard';
 
 const { height } = Dimensions.get('window');
 
@@ -15,7 +17,10 @@ const Home = () => {
     const { data: nowPlaying, loading: nowPlayingLoad, error: nowPlayingErr } = useApi<any>('movie/now_playing?language=en-US&page=1', 'GET');
     const { data: upcoming, loading: upcomingLoad, error: upcomingErr } = useApi<any>('movie/upcoming?language=en-US&page=1', "GET");
     const { data: topRated, loading: topRatedLoad, error: topRatedErr } = useApi<any>('movie/top_rated?language=en-US&page=1', "GET");
+    
 
+    const { data: popularTV, loading: popularTVLoad, error: popularTVErr } = useApi<any>('tv/popular?language=en-US&page=1', "GET");
+    const { data: top_ratedTV, loading: top_ratedLoad, error: top_ratedTVErr } = useApi<any>('tv/top_rated?language=en-US&page=1', "GET");
     const { colors } = useTheme();
 
 
@@ -38,7 +43,10 @@ const Home = () => {
                 )}
 
                 {/* Popular Movies Section */}
-                <Text style={[styles.sectionTitle, { color: colors.text }]}>{i18n.t("Popular")}</Text>
+                <View style={{ flexDirection: 'row', alignItems: 'center' }}>
+                    <Text style={[styles.sectionTitle, { color: colors.text }]}>{i18n.t("Popular")}</Text>
+                    <Link href={`/contentShow?params=popular`}><Feather name="chevrons-right" size={24} color={colors.text} /></Link>
+                </View>
                 <ScrollView horizontal showsHorizontalScrollIndicator={false}>
                     {popularMovies?.results.map((movie: { id: number | string; title: string; poster_path: string }) => (
                         <Link style={{ marginLeft: 5, marginRight: 5 }} href={`about/${movie?.id}` as any} key={movie.id}>
@@ -47,8 +55,24 @@ const Home = () => {
                     ))}
                 </ScrollView>
 
+                {/* popularTV */}
+                <View style={{ flexDirection: 'row', alignItems: 'center' }}>
+                    <Text style={[styles.sectionTitle, { color: colors.text }]}>{i18n.t("PopularTV")}</Text>
+                    <Link href={`/contentTVShow?params=popular`}><Feather name="chevrons-right" size={24} color={colors.text} /></Link>
+                </View>
+                <ScrollView horizontal showsHorizontalScrollIndicator={false}>
+                    {popularTV?.results.map((movie: { id: number | string; title: string; poster_path: string }) => (
+                        <Link style={{ marginLeft: 5, marginRight: 5 }} href={`aboutTV/${movie?.id}` as any} key={movie.id}>
+                            <TVCard posterPath={movie.poster_path} />
+                        </Link>
+                    ))}
+                </ScrollView>
+
                 {/* Now Playing Section */}
-                <Text style={[styles.sectionTitle, { color: colors.text }]}>{i18n.t("NowPlaying")}</Text>
+                <View style={{ flexDirection: 'row', alignItems: 'center' }}>
+                    <Text style={[styles.sectionTitle, { color: colors.text }]}>{i18n.t("NowPlaying")}</Text>
+                    <Link href={`/contentShow?params=now_playing`}><Feather name="chevrons-right" size={24} color={colors.text} /></Link>
+                </View>
                 <ScrollView style={{ marginLeft: 10, marginRight: 10 }} horizontal showsHorizontalScrollIndicator={false}>
                     {nowPlaying?.results.map((movie: any) => (
                         <Link style={{ marginLeft: 5, marginRight: 5 }} href={`about/${movie?.id}` as any} key={movie.id}>
@@ -58,7 +82,10 @@ const Home = () => {
                 </ScrollView>
 
                 {/* Upcoming Movies Section */}
-                <Text style={[styles.sectionTitle, { color: colors.text }]}>{i18n.t("Upcoming")}</Text>
+                <View style={{ flexDirection: 'row', alignItems: 'center' }}>
+                    <Text style={[styles.sectionTitle, { color: colors.text }]}>{i18n.t("Upcoming")}</Text>
+                    <Link href={`/contentShow?params=upcoming`}><Feather name="chevrons-right" size={24} color={colors.text} /></Link>
+                </View>
                 <ScrollView style={{ marginLeft: 10, marginRight: 10 }} horizontal showsHorizontalScrollIndicator={false}>
                     {upcoming?.results.map((movie: any) => (
                         <Link style={{ marginLeft: 5, marginRight: 5 }} href={`about/${movie?.id}` as any} key={movie.id}>
@@ -66,8 +93,24 @@ const Home = () => {
                         </Link>))}
                 </ScrollView>
 
+                {/* upcoming TV */}
+                <View style={{ flexDirection: 'row', alignItems: 'center' }}>
+                    <Text style={[styles.sectionTitle, { color: colors.text }]}>{i18n.t("top_rated")}</Text>
+                    <Link href={`/contentTVShow?params=top_rated`}><Feather name="chevrons-right" size={24} color={colors.text} /></Link>
+                </View>
+                <ScrollView horizontal showsHorizontalScrollIndicator={false}>
+                    {top_ratedTV?.results.map((movie: { id: number | string; title: string; poster_path: string }) => (
+                        <Link style={{ marginLeft: 5, marginRight: 5 }} href={`aboutTV/${movie?.id}` as any} key={movie.id}>
+                            <TVCard posterPath={movie.poster_path} />
+                        </Link>
+                    ))}
+                </ScrollView>
+
                 {/* Top Rated Section */}
-                <Text style={[styles.sectionTitle, { color: colors.text }]}>{i18n.t("TopRated")}</Text>
+                <View style={{ flexDirection: 'row', alignItems: 'center' }}>
+                    <Text style={[styles.sectionTitle, { color: colors.text }]}>{i18n.t("TopRated")}</Text>
+                    <Link href={`/contentShow?params=top_rated`}><Feather name="chevrons-right" size={24} color={colors.text} /></Link>
+                </View>
                 <ScrollView style={{ marginLeft: 10, marginRight: 10 }} horizontal showsHorizontalScrollIndicator={false}>
                     {topRated?.results.map((movie: any) => (
                         <Link style={{ marginLeft: 5, marginRight: 5 }} href={`about/${movie?.id}` as any} key={movie.id}>

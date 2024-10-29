@@ -43,7 +43,11 @@ const contentTVShow = () => {
                     </View>
                 )}
             />
-            {loading && <Text style={{ color: colors.text }}>Loading...</Text>}
+            {loading && <SafeAreaView style={{ flex: 1, backgroundColor: colors.background, justifyContent: 'center', alignItems: 'center' }}>
+                <Text style={{ color: colors.text, textAlign: 'center' }}>
+                    Loading...
+                </Text>
+            </SafeAreaView>}
             {error && <Text style={{ color: colors.error }}>Error loading movies.</Text>}
 
             <View style={styles.paginationContainer}>

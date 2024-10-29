@@ -43,7 +43,11 @@ const Search = () => {
                 )}
             </View>
 
-            {loading && <Text style={[styles.loading, { color: colors.text }]}>Loading...</Text>}
+            {loading && <SafeAreaView style={{ flex: 1, backgroundColor: colors.background, justifyContent: 'center', alignItems: 'center' }}>
+                <Text style={{ color: colors.text, textAlign: 'center' }}>
+                    Loading...
+                </Text>
+            </SafeAreaView>}
             {data && (
                 <FlatList
                     data={data.results}

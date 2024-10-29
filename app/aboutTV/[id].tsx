@@ -56,8 +56,12 @@ const TvDetails = () => {
     };
 
 
-    if (loading) return <Text style={{ color: colors.background,textAlign:"center",alignSelf:"center" }}>Loading...</Text>;
-    if (error) return <Text style={{ color: colors.background,textAlign:"center",alignSelf:"center" }}>Error: {error}</Text>;
+    if (loading) return <SafeAreaView style={{ flex: 1, backgroundColor: colors.background, justifyContent: 'center', alignItems: 'center' }}>
+        <Text style={{ color: colors.text, textAlign: 'center' }}>
+            Loading...
+        </Text>
+    </SafeAreaView>;
+    if (error) return <Text style={{ color: colors.background, textAlign: "center", alignSelf: "center" }}>Error: {error}</Text>;
 
     return (
         <SafeAreaView style={{ flex: 1, backgroundColor: colors.background }}>
@@ -68,7 +72,7 @@ const TvDetails = () => {
                             <FontAwesome5 size={18} name="arrow-left" color={colors.text} />
                         </TouchableOpacity>
                         <View style={styles.titleContainer}>
-                            <Text style={[styles.headerTitle,{color:colors.text}]}>{tv.name}</Text>
+                            <Text style={[styles.headerTitle, { color: colors.text }]}>{tv.name}</Text>
                         </View>
                         <TouchableOpacity onPress={handelFavLocal} style={styles.favoriteButton}>
                             <FontAwesome name={isFavorite ? 'heart' : 'heart-o'} size={24} color={isFavorite ? 'red' : colors.text} />
@@ -80,19 +84,19 @@ const TvDetails = () => {
                         style={styles.posterImage}
                     />
                     <View style={{ padding: 6 }}>
-                        <Text style={[styles.title,{color:colors.text}]}>{tv.name}</Text>
+                        <Text style={[styles.title, { color: colors.text }]}>{tv.name}</Text>
                         <View style={styles.genresContainer}>
                             {tv.genres.map((genre: any) => (
                                 <Text key={genre.id} style={styles.genre}>{genre.name}</Text>
                             ))}
                         </View>
-                        <Text style={[styles.releaseDate,{color:colors.text}]}>{tv.first_air_date} | {tv.vote_average.toFixed(1)} / 10</Text>
-                        <Text style={[styles.overview,{color:colors.text}]}>{tv.overview}</Text>
+                        <Text style={[styles.releaseDate, { color: colors.text }]}>{tv.first_air_date} | {tv.vote_average.toFixed(1)} / 10</Text>
+                        <Text style={[styles.overview, { color: colors.text }]}>{tv.overview}</Text>
                     </View>
 
                     {tv.seasons.map((season: any) => (
                         <View key={season.id} style={styles.seasonContainer}>
-                            <Text style={[styles.seasonTitle,{color:colors.text}]}>{season.name} - {season.episode_count} Episodes</Text>
+                            <Text style={[styles.seasonTitle, { color: colors.text }]}>{season.name} - {season.episode_count} Episodes</Text>
                             {season.episodes?.map((episode: any) => (
                                 <View key={episode.id} style={styles.episodeContainer}>
                                     <Image
@@ -100,9 +104,9 @@ const TvDetails = () => {
                                         style={episode.still_path ? styles.episodeImage : styles.placeholderImage}
                                     />
                                     <View style={styles.episodeInfo}>
-                                        <Text style={[styles.episodeTitle,{color:colors.text}]}>{episode.name}</Text>
-                                        <Text style={[styles.episodeOverview,{color:colors.text}]}>{episode.overview || 'No overview available.'}</Text>
-                                        <Text style={[styles.episodeDate,{color:colors.text}]}>{episode.air_date}</Text>
+                                        <Text style={[styles.episodeTitle, { color: colors.text }]}>{episode.name}</Text>
+                                        <Text style={[styles.episodeOverview, { color: colors.text }]}>{episode.overview || 'No overview available.'}</Text>
+                                        <Text style={[styles.episodeDate, { color: colors.text }]}>{episode.air_date}</Text>
                                     </View>
                                 </View>
                             ))}

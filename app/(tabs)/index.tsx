@@ -17,15 +17,19 @@ const Home = () => {
     const { data: nowPlaying, loading: nowPlayingLoad, error: nowPlayingErr } = useApi<any>('movie/now_playing?language=en-US&page=1', 'GET');
     const { data: upcoming, loading: upcomingLoad, error: upcomingErr } = useApi<any>('movie/upcoming?language=en-US&page=1', "GET");
     const { data: topRated, loading: topRatedLoad, error: topRatedErr } = useApi<any>('movie/top_rated?language=en-US&page=1', "GET");
-    
+
 
     const { data: popularTV, loading: popularTVLoad, error: popularTVErr } = useApi<any>('tv/popular?language=en-US&page=1', "GET");
     const { data: top_ratedTV, loading: top_ratedLoad, error: top_ratedTVErr } = useApi<any>('tv/top_rated?language=en-US&page=1', "GET");
     const { colors } = useTheme();
 
 
-    if (loading || nowPlayingLoad || upcomingLoad || topRatedLoad || popularLoad || popularTVLoad) return <Text style={{ color: colors.background,textAlign:"center",alignSelf:"center" }}>Loading...</Text>;
-    if (error || nowPlayingErr || upcomingErr || topRatedErr || popularErr || top_ratedLoad) return <Text style={{ color: colors.background,textAlign:"center",alignSelf:"center" }}>Error: {error || nowPlayingErr || upcomingErr || topRatedErr}</Text>;
+    if (loading || nowPlayingLoad || upcomingLoad || topRatedLoad || popularLoad || popularTVLoad) return <SafeAreaView style={{ flex: 1, backgroundColor:colors.background,justifyContent: 'center', alignItems: 'center' }}>
+        <Text style={{ color: colors.text, textAlign: 'center' }}>
+            Loading...
+        </Text>
+    </SafeAreaView>;
+    if (error || nowPlayingErr || upcomingErr || topRatedErr || popularErr || top_ratedLoad) return <Text style={{ color: colors.background, textAlign: "center", alignSelf: "center" }}>Error: {error || nowPlayingErr || upcomingErr || topRatedErr}</Text>;
 
     const randomMovie = randomMovies?.results[Math.floor(Math.random() * randomMovies.results.length)];
 

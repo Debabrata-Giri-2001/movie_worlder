@@ -75,8 +75,12 @@ const MovieDetails = () => {
     };
 
 
-    if (loading) return <Text style={{ color: colors.background,textAlign:"center",alignSelf:"center" }}>Loading...</Text>;
-    if (error) return <Text style={{ color: colors.background,textAlign:"center",alignSelf:"center" }}>Error: {error}</Text>;
+    if (loading) return <SafeAreaView style={{ flex: 1, backgroundColor: colors.background, justifyContent: 'center', alignItems: 'center' }}>
+        <Text style={{ color: colors.text, textAlign: 'center' }}>
+            Loading...
+        </Text>
+    </SafeAreaView>;
+    if (error) return <Text style={{ color: colors.background, textAlign: "center", alignSelf: "center" }}>Error: {error}</Text>;
 
     return (
         <SafeAreaView style={{ flex: 1, backgroundColor: colors.background }}>

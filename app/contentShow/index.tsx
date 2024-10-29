@@ -43,8 +43,8 @@ const contentShow = () => {
                     </View>
                 )}
             />
-            {loading && <Text style={{ color: colors.text }}>Loading...</Text>}
-            {error && <Text style={{ color: colors.error }}>Error loading movies.</Text>}
+            {loading && <Text style={{ color: colors.background,textAlign:"center",alignSelf:"center" }}>Loading...</Text>}
+            {error && <Text style={{ color: colors.background,textAlign:"center",alignSelf:"center" }}>Error loading movies.</Text>}
 
             <View style={styles.paginationContainer}>
                 <Button title="Previous" onPress={loadPrevious} disabled={page === 1} />

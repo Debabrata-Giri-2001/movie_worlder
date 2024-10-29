@@ -24,8 +24,8 @@ const Home = () => {
     const { colors } = useTheme();
 
 
-    if (loading || nowPlayingLoad || upcomingLoad || topRatedLoad || popularLoad) return <Text style={{ color: colors.text }}>Loading...</Text>;
-    if (error || nowPlayingErr || upcomingErr || topRatedErr || popularErr) return <Text style={{ color: colors.error }}>Error: {error || nowPlayingErr || upcomingErr || topRatedErr}</Text>;
+    if (loading || nowPlayingLoad || upcomingLoad || topRatedLoad || popularLoad || popularTVLoad) return <Text style={{ color: colors.background,textAlign:"center",alignSelf:"center" }}>Loading...</Text>;
+    if (error || nowPlayingErr || upcomingErr || topRatedErr || popularErr || top_ratedLoad) return <Text style={{ color: colors.background,textAlign:"center",alignSelf:"center" }}>Error: {error || nowPlayingErr || upcomingErr || topRatedErr}</Text>;
 
     const randomMovie = randomMovies?.results[Math.floor(Math.random() * randomMovies.results.length)];
 
